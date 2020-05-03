@@ -1,0 +1,27 @@
+#include <MPU6050.h>//library for GYRO 
+#include <Wire.h>
+#include <Servo.h>
+
+Servo myservo;  // create servo object to control a servo
+
+
+int X = 0;
+int Y = 0;
+MPU6050 mpu(0);              //to save GYRO data
+
+
+void setup() {
+
+  Wire.begin();            //initializing GYRO
+  mpu.initialize();
+  delay(100);
+  myservo.attach(9);
+}
+
+void loop() {
+  X = map(gyro.refresh('A', 'X'), -90, 90, 0, 180);                //mapping the gyro data according to angle limitation of servo motor 
+  Y = map(gyro.refresh('A', 'Y'), -90, 90, 0, 180);
+  myservo.write(Y);                                               //movement of Y axis will control servo
+ delay(15);
+
+}

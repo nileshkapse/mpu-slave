@@ -1,0 +1,23 @@
+#include <SoftwareSerial.h>
+SoftwareSerial BTSerial(1,0);
+#include <Wire.h>
+#include <GY6050.h>
+
+
+GY6050 gyro(0x68);                            // Create Gyro object with "0x68" as I2C addres (most likely the address of your MPU6050)
+
+int Y=0;
+void setup()                                  // Main setup
+{
+ 
+  gyro.initialisation();
+  Serial.begin(38400);
+  BTSerial.begin(38400);
+  delay(5);
+}
+void loop()                                  // Main loop
+{
+ Y = map(gyro.refresh('A', 'Y'), -90, 90, 0, 180);
+ BTSerial.write(Y);
+ Serial.print(Y);
+}
